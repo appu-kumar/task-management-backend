@@ -124,20 +124,20 @@ export const deleteAnyTask = async (req, res) => {
 
 // GET ACTIVITY LOGS
 
-export const getActivityLogs = async (req, res) => {
-  try {
-    const logs = await ActivityLog.find()
+// export const getActivityLogs = async (req, res) => {
+//   try {
+//     const logs = await ActivityLog.find()
 
-      .populate("userId", "name email")
+//       .populate("userId", "name email")
 
-      .sort({
-        createdAt: -1,
-      });
+//       .sort({
+//         createdAt: -1,
+//       });
 
-    res.json(logs);
-  } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
-  }
-};
+//     res.json(logs);
+//   } catch (error) {
+//     res.status(500).json({
+//       message: error.message,
+//     });
+//   }
+// };
