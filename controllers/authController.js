@@ -8,7 +8,7 @@ import ActivityLog from "../models/ActivityLog.js";
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: "7d",
+    expiresIn: "60s",
   });
 };
 
