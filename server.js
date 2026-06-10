@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
+import taskRoutes from "./routes/taskRoutes.js";
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use("/api/auth", authRoutes);
+
+app.use("/api/tasks", taskRoutes);
 
 // Test API
 app.get("/", (req, res) => {
