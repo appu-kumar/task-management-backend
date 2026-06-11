@@ -12,6 +12,17 @@ const generateToken = (id) => {
   });
 };
 
+const getCookieOptions = () => {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  return {
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  };
+};
+
 // REGISTER
 
 export const register = async (req, res) => {
@@ -108,12 +119,7 @@ export const login = async (req, res) => {
 
     // send cookie
 
-    res.cookie("token", token, {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+    res.cookie("token", token, getCookieOptions());
 
     res.json({
       message: "Login successful",
@@ -136,7 +142,8 @@ export const login = async (req, res) => {
 // LOGOUT
 
 export const logout = async (req, res) => {
-  res.clearCookie("token");
+  const { maxAge, ...clearOptions } = getCookieOptions();
+  res.clearCookie("token", clearOptions);
 
   res.json({
     message: "Logged out successfully",
