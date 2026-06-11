@@ -12,11 +12,14 @@ dotenv.config();
 
 const app = express();
 
+const normalizeOrigin = (origin) => origin.replace(/\/$/, "");
+
 const allowedOrigins = [
   "http://localhost:5173",
   "http://localhost:5174",
-  ...(process.env.FRONTEND_URL?.split(",").map((origin) => origin.trim()) ??
-    []),
+  ...(process.env.FRONTEND_URL?.split(",").map((origin) =>
+    normalizeOrigin(origin.trim()),
+  ) ?? []),
 ].filter(Boolean);
 
 // DB connection
@@ -26,7 +29,7 @@ connectDB();
 app.use(
   cors({
     origin(origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
+      if (!origin || allowedOrigins.includes(normalizeOrigin(origin))) {
         callback(null, true);
       } else {
         callback(null, false);
